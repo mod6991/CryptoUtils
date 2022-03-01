@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace CryptoUtils.ViewModels
 {
-    internal class ViewModelBase
+    internal class ViewModelBase : ObservableObject
     {
     }
 }
