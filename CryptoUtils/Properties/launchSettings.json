@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CryptoUtils (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CryptoUtils (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
