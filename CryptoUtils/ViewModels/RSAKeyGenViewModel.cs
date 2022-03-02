@@ -1,6 +1,8 @@
-﻿namespace CryptoUtils.ViewModels
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+
+namespace CryptoUtils.ViewModels
 {
-    internal class RSAKeyGenViewModel : ViewModelBase
+    public class RSAKeyGenViewModel : ObservableObject
     {
     }
 }

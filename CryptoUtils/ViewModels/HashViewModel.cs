@@ -1,6 +1,8 @@
-﻿namespace CryptoUtils.ViewModels
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+
+namespace CryptoUtils.ViewModels
 {
-    internal class HashViewModel : ViewModelBase
+    public class HashViewModel : ObservableObject
     {
     }
 }

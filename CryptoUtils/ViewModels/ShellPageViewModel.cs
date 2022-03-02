@@ -2,7 +2,7 @@
 
 namespace CryptoUtils.ViewModels
 {
-    public class EncDecWithKeyViewModel : ObservableObject
+    public class ShellPageViewModel : ObservableObject
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CryptoUtils.ViewModels
 {
-    internal class ViewModelBase : ObservableObject
+    public class SettingsViewModel : ObservableObject
     {
     }
 }
