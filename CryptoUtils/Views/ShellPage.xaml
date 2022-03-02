@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <NavigationView IsBackButtonVisible="Collapsed" x:Name="NavView">
+    <NavigationView IsBackButtonVisible="Collapsed" x:Name="NavView" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="RSA key pair generation" Icon="Permissions" Tag="rsa"
                                 ToolTipService.ToolTip="RSA key pair generation"/>
