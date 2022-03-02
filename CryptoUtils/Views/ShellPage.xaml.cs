@@ -1,6 +1,7 @@
 ﻿using CryptoUtils.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Linq;
 
 namespace CryptoUtils.Views
@@ -34,35 +35,36 @@ namespace CryptoUtils.Views
         {
             if (args.IsSettingsInvoked)
             {
-                ContentFrame.Navigate(typeof(SettingsPage));
+                NavigateTo(typeof(SettingsPage));
             }
             else
             {
-                var item = sender.MenuItems.OfType<NavigationViewItem>().First(x => (string)x.Content == (string)args.InvokedItem);
-                Navigate(item);
+                NavigationViewItem item = sender.MenuItems.OfType<NavigationViewItem>().First(x => (string)x.Content == (string)args.InvokedItem);
+                switch (item.Tag)
+                {
+                    case "rsa":
+                        NavigateTo(typeof(RSAKeyGenPage));
+                        break;
+
+                    case "key":
+                        NavigateTo(typeof(EncDecWithKeyPage));
+                        break;
+
+                    case "pass":
+                        NavigateTo(typeof(EncDecWithPassPage));
+                        break;
+
+                    case "hash":
+                        NavigateTo(typeof(HashPage));
+                        break;
+                }
             }
         }
 
-        private void Navigate(NavigationViewItem item)
+        private void NavigateTo(Type pageType)
         {
-            switch (item.Tag)
-            {
-                case "rsa":
-                    ContentFrame.Navigate(typeof(RSAKeyGenPage));
-                    break;
-
-                case "key":
-                    ContentFrame.Navigate(typeof(EncDecWithKeyPage));
-                    break;
-
-                case "pass":
-                    ContentFrame.Navigate(typeof(EncDecWithPassPage));
-                    break;
-
-                case "hash":
-                    ContentFrame.Navigate(typeof(HashPage));
-                    break;
-            }
+            if (ContentFrame.SourcePageType != pageType)
+                ContentFrame.Navigate(pageType);
         }
     }
 }
