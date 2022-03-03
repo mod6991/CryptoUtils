@@ -8,7 +8,92 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <TextBlock Text="RSA" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>
+    <Page.Resources>
+        <x:Int32 x:Key="param1k">1024</x:Int32>
+        <x:Int32 x:Key="param2k">2048</x:Int32>
+        <x:Int32 x:Key="param4k">4096</x:Int32>
+        <x:Int32 x:Key="param8k">8192</x:Int32>
+    </Page.Resources>
+
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="200" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button Margin="10 10 0 10"
+                        IsEnabled="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertConverter}, Mode=OneWay}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE192;" />
+                            <TextBlock Text="Generate" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="1024" Command="{x:Bind ViewModel.GenerateCommand}" CommandParameter="{StaticResource param1k}" />
+                            <MenuFlyoutItem Text="2048" Command="{x:Bind ViewModel.GenerateCommand}" CommandParameter="{StaticResource param2k}" />
+                            <MenuFlyoutItem Text="4096" Command="{x:Bind ViewModel.GenerateCommand}" CommandParameter="{StaticResource param4k}" />
+                            <MenuFlyoutItem Text="8192" Command="{x:Bind ViewModel.GenerateCommand}" CommandParameter="{StaticResource param8k}" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+
+                <Button Margin="10 10 0 10"
+                        IsEnabled="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertConverter}, Mode=OneWay}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1A5;" />
+                            <TextBlock Text="Load" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="PEM" />
+                            <MenuFlyoutItem Text="XML" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+
+                <Button Margin="10 10 0 10"
+                        IsEnabled="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertConverter}, Mode=OneWay}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE105;" />
+                            <TextBlock Text="Save" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="PEM" />
+                            <MenuFlyoutItem Text="XML" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                
+            </StackPanel>
+
+            <TextBlock Grid.Row="1" Text="Public key" FontSize="24" Margin="10" />
+            <TextBox Grid.Row="2" Text="{x:Bind ViewModel.PublicKey, Mode=OneWay}"
+                     IsEnabled="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertConverter}, Mode=OneWay}"
+                     AcceptsReturn="True" Margin="10" IsReadOnly="True" TextWrapping="Wrap"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible" />
+            <ProgressRing Grid.Row="2" IsIndeterminate="True" Width="60" Height="60"
+                          Visibility="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
+            <TextBlock Grid.Row="3" Text="Private key" FontSize="24" Margin="10" />
+            <TextBox Grid.Row="4" Text="{x:Bind ViewModel.PrivateKey, Mode=OneWay}"
+                     IsEnabled="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertConverter}, Mode=OneWay}"
+                     AcceptsReturn="True" Margin="10" IsReadOnly="True" TextWrapping="Wrap"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible" />
+            <ProgressRing Grid.Row="4" IsIndeterminate="True" Width="60" Height="60"
+                          Visibility="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
+        </Grid>
+    </ScrollViewer>
 </Page>
