@@ -1,6 +1,8 @@
-﻿using System.Security.Cryptography;
+﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Byte.Toolkit.Crypto.PubKey;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
@@ -54,9 +56,22 @@ namespace CryptoUtils.ViewModels
                     PrivateKey = string.Empty;
                 });
 
-                RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(size);
-                string publicKey = rsa.ToXmlString(false);
-                string privateKey = rsa.ToXmlString(true);
+                var rsa = RSA.GenerateKeyPair(size);
+
+                string publicKey = string.Empty;
+                string privateKey = string.Empty;
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    RSA.SavePublicKeyToPEM(rsa, ms);
+                    publicKey = Encoding.UTF8.GetString(ms.ToArray());
+                }
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    RSA.SavePrivateKeyToPEM(rsa, ms);
+                    privateKey = Encoding.UTF8.GetString(ms.ToArray());
+                }
 
                 MainWindow.AppDispatcher.TryEnqueue(() =>
                 {
