@@ -1,18 +1,22 @@
-﻿using Microsoft.UI.Dispatching;
+﻿using System;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using Windows.UI.Core;
 
 namespace CryptoUtils
 {
     public sealed partial class MainWindow : Window
     {
         public static DispatcherQueue AppDispatcher { get; private set; }
+        public static IntPtr WindowHandle { get; private set; }
 
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
             Title = "CryptoUtils";
+
             AppDispatcher = DispatcherQueue;
+            WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
         }
     }
 }

@@ -21,6 +21,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <!-- Menu -->
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Margin="10 10 0 10"
                     IsEnabled="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertConverter}, Mode=OneWay}">
@@ -41,6 +42,7 @@
             </Button>
 
             <Button Margin="10 10 0 10"
+                    Command="{x:Bind ViewModel.LoadCommand}"
                     IsEnabled="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertConverter}, Mode=OneWay}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
@@ -60,14 +62,16 @@
                 </Button.Content>
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Public key" />
-                        <MenuFlyoutItem Text="Private key" />
+                        <MenuFlyoutItem Text="Public key" Command="{x:Bind ViewModel.SavePublicKeyCommand}" />
+                        <MenuFlyoutItem Text="Private key" Command="{x:Bind ViewModel.SavePrivateKeyCommand}" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
             
         </StackPanel>
 
+        <!-- Page content -->
+        
         <ScrollViewer Grid.Row="1" Visibility="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolInvertToVisibilityConverter}, Mode=OneWay}">
             <StackPanel>
 

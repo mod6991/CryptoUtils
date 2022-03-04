@@ -1,10 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Byte.Toolkit.Crypto.PubKey;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace CryptoUtils.ViewModels
 {
@@ -14,6 +17,15 @@ namespace CryptoUtils.ViewModels
 
         private ICommand _generateCommand;
         public ICommand GenerateCommand => _generateCommand ??= new AsyncRelayCommand<int>(Generate);
+
+        private ICommand _loadCommand;
+        public ICommand LoadCommand => _loadCommand ??= new AsyncRelayCommand(Load);
+
+        private ICommand _savePublicKeyCommand;
+        public ICommand SavePublicKeyCommand => _savePublicKeyCommand ??= new AsyncRelayCommand(SavePublicKey, () => !string.IsNullOrWhiteSpace(PublicKey));
+
+        private ICommand _savePrivateKeyCommand;
+        public ICommand SavePrivateKeyCommand => _savePrivateKeyCommand ??= new AsyncRelayCommand(SavePrivateKey, () => !string.IsNullOrWhiteSpace(PrivateKey));
 
         #endregion
 
@@ -30,14 +42,22 @@ namespace CryptoUtils.ViewModels
         public string PublicKey
         {
             get => _publicKey;
-            set => SetProperty(ref _publicKey, value);
+            set
+            {
+                SetProperty(ref _publicKey, value);
+                ((AsyncRelayCommand)SavePublicKeyCommand).NotifyCanExecuteChanged();
+            }
         }
 
         private string _privateKey;
         public string PrivateKey
         {
             get => _privateKey;
-            set => SetProperty(ref _privateKey, value);
+            set
+            {
+                SetProperty(ref _privateKey, value);
+                ((AsyncRelayCommand)SavePrivateKeyCommand).NotifyCanExecuteChanged();
+            }
         }
 
         #endregion
@@ -80,6 +100,27 @@ namespace CryptoUtils.ViewModels
                     IsWorking = false;
                 });
             });
+        }
+
+        private async Task Load()
+        {
+            FileOpenPicker picker = new FileOpenPicker();
+            picker.ViewMode = PickerViewMode.List;
+            picker.FileTypeFilter.Add(".pem");
+
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
+
+            StorageFile file = await picker.PickSingleFileAsync();
+        }
+
+        private async Task SavePublicKey()
+        {
+
+        }
+
+        private async Task SavePrivateKey()
+        {
+
         }
 
         #endregion
