@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Byte.Toolkit.Crypto.PubKey;
+using CryptoUtils.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
@@ -31,12 +35,16 @@ namespace CryptoUtils.ViewModels
 
         #region Properties
 
+        public XamlRoot XamlRoot { get; set; }
+
         private bool _isWorking;
         public bool IsWorking
         {
             get => _isWorking;
             set => SetProperty(ref _isWorking, value);
         }
+
+        public System.Security.Cryptography.RSACryptoServiceProvider Key { get; set; }
 
         private string _publicKey;
         public string PublicKey
@@ -76,20 +84,20 @@ namespace CryptoUtils.ViewModels
                     PrivateKey = string.Empty;
                 });
 
-                var rsa = RSA.GenerateKeyPair(size);
+                Key = RSA.GenerateKeyPair(size);
 
                 string publicKey = string.Empty;
                 string privateKey = string.Empty;
 
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    RSA.SavePublicKeyToPEM(rsa, ms);
+                    RSA.SavePublicKeyToPEM(Key, ms);
                     publicKey = Encoding.UTF8.GetString(ms.ToArray());
                 }
 
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    RSA.SavePrivateKeyToPEM(rsa, ms);
+                    RSA.SavePrivateKeyToPEM(Key, ms);
                     privateKey = Encoding.UTF8.GetString(ms.ToArray());
                 }
 
@@ -120,7 +128,37 @@ namespace CryptoUtils.ViewModels
 
         private async Task SavePrivateKey()
         {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Save private key",
+                PrimaryButtonText = "Save",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = new SaveKeyContentDialog(),
+                XamlRoot = XamlRoot
+            };
+            var result = await dialog.ShowAsync();
 
+            if (result == ContentDialogResult.Primary)
+            {
+                if (dialog.Content is SaveKeyContentDialog saveKeyContentDialog)
+                {
+                    bool encrypt = saveKeyContentDialog.EncryptWithPassword;
+                    string password = saveKeyContentDialog.Password;
+
+                    FileSavePicker picker = new FileSavePicker();
+                    picker.FileTypeChoices.Add("PEM file", new List<string> { ".pem" });
+
+                    WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
+
+                    StorageFile file = await picker.PickSaveFileAsync();
+
+                    if (encrypt)
+                        RSA.SavePrivateKeyToPEM(Key, file.Path, password);
+                    else
+                        RSA.SavePrivateKeyToPEM(Key, file.Path);
+                }
+            }
         }
 
         #endregion

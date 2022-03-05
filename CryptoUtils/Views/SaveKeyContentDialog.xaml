@@ -1,0 +1,15 @@
+﻿<Page
+    x:Class="CryptoUtils.Views.SaveKeyContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <!-- Content body -->
+        <CheckBox x:Name="usePasswordCB"
+                  Content="Encrypt with password"
+                  IsChecked="{x:Bind EncryptWithPassword, Mode=TwoWay}"/>
+        <PasswordBox Password="{x:Bind Password, Mode=TwoWay}"
+                     Visibility="{Binding IsChecked, ElementName=usePasswordCB, Converter={StaticResource BoolToVisibilityConverter}}"/>
+    </StackPanel>
+
+</Page>
