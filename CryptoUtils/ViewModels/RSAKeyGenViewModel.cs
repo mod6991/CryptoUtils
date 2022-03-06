@@ -132,7 +132,11 @@ namespace CryptoUtils.ViewModels
             {
                 RSA.SavePublicKeyToPEM(Key, file.Path);
 
-                MessageBoxContentDialog dialog = new MessageBoxContentDialog { XamlRoot = XamlRoot };
+                MessageBoxContentDialog dialog = new MessageBoxContentDialog
+                {
+                    XamlRoot = XamlRoot,
+                    Message = "Public key saved !"
+                };
                 await dialog.ShowAsync();
             }
         }

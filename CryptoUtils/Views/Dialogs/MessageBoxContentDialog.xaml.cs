@@ -8,5 +8,7 @@ namespace CryptoUtils.Views.Dialogs
         {
             this.InitializeComponent();
         }
+
+        public string Message { get; set; }
     }
 }

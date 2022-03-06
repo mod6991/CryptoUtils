@@ -2,13 +2,21 @@
     x:Class="CryptoUtils.Views.Dialogs.MessageBoxContentDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Test title"
     PrimaryButtonText="Ok"
     DefaultButton="Primary">
+
+    <ContentDialog.Resources>
+        
+    </ContentDialog.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Path Fill="Green" Width="32" Height="32" Stretch="Uniform"
-              Data="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Path Grid.Column="0" Fill="Orange" Width="32" Height="32" Stretch="Uniform" Margin="10"
+              Data="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z">
         </Path>
+        <TextBlock Grid.Column="1" Margin="10" Text="{x:Bind Message}" TextWrapping="Wrap" VerticalAlignment="Center" />
     </Grid>
 </ContentDialog>
