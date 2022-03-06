@@ -17,6 +17,7 @@
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\Dialogs\MessageBoxContentDialog.xaml" />
     <None Remove="Views\EncDecWithKeyPage.xaml" />
     <None Remove="Views\EncDecWithPassPage.xaml" />
     <None Remove="Views\HashPage.xaml" />
@@ -49,6 +50,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\MessageBoxContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Dialogs\SaveKeyContentDialog.xaml">

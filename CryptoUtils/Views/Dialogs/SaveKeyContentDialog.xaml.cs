@@ -2,7 +2,7 @@
 
 namespace CryptoUtils.Views.Dialogs
 {
-    public sealed partial class SaveKeyContentDialog : Page
+    public sealed partial class SaveKeyContentDialog : ContentDialog
     {
         public SaveKeyContentDialog()
         {

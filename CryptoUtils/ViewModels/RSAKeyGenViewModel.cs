@@ -125,41 +125,36 @@ namespace CryptoUtils.ViewModels
         {
             FileSavePicker picker = new FileSavePicker();
             picker.FileTypeChoices.Add("PEM file", new List<string> { ".pem" });
-
             WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
 
             StorageFile file = await picker.PickSaveFileAsync();
+            if (file != null)
+            {
+                RSA.SavePublicKeyToPEM(Key, file.Path);
 
-            RSA.SavePublicKeyToPEM(Key, file.Path);
+                MessageBoxContentDialog dialog = new MessageBoxContentDialog { XamlRoot = XamlRoot };
+                await dialog.ShowAsync();
+            }
         }
 
         private async Task SavePrivateKey()
         {
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Save private key",
-                PrimaryButtonText = "Save",
-                CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Primary,
-                Content = new SaveKeyContentDialog(),
-                XamlRoot = XamlRoot
-            };
-            var result = await dialog.ShowAsync();
+            SaveKeyContentDialog dialog = new SaveKeyContentDialog { XamlRoot = XamlRoot };
+            ContentDialogResult result = await dialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
-                if (dialog.Content is SaveKeyContentDialog saveKeyContentDialog)
+                bool encrypt = dialog.EncryptWithPassword;
+                string password = dialog.Password;
+
+                FileSavePicker picker = new FileSavePicker();
+                picker.FileTypeChoices.Add("PEM file", new List<string> { ".pem" });
+
+                WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
+
+                StorageFile file = await picker.PickSaveFileAsync();
+                if (file != null)
                 {
-                    bool encrypt = saveKeyContentDialog.EncryptWithPassword;
-                    string password = saveKeyContentDialog.Password;
-
-                    FileSavePicker picker = new FileSavePicker();
-                    picker.FileTypeChoices.Add("PEM file", new List<string> { ".pem" });
-
-                    WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
-
-                    StorageFile file = await picker.PickSaveFileAsync();
-
                     if (encrypt)
                         RSA.SavePrivateKeyToPEM(Key, file.Path, password);
                     else
