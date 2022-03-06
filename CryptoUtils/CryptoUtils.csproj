@@ -51,7 +51,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\SaveKeyContentDialog.xaml">
+    <Page Update="Views\Dialogs\SaveKeyContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

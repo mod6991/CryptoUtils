@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 
-namespace CryptoUtils.Views
+namespace CryptoUtils.Views.Dialogs
 {
     public sealed partial class SaveKeyContentDialog : Page
     {

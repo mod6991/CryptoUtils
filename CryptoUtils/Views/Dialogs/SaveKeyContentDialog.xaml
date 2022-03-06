@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="CryptoUtils.Views.SaveKeyContentDialog"
+    x:Class="CryptoUtils.Views.Dialogs.SaveKeyContentDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 

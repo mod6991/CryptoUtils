@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Byte.Toolkit.Crypto.PubKey;
-using CryptoUtils.Views;
+using CryptoUtils.Views.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
@@ -123,7 +123,14 @@ namespace CryptoUtils.ViewModels
 
         private async Task SavePublicKey()
         {
+            FileSavePicker picker = new FileSavePicker();
+            picker.FileTypeChoices.Add("PEM file", new List<string> { ".pem" });
 
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
+
+            StorageFile file = await picker.PickSaveFileAsync();
+
+            RSA.SavePublicKeyToPEM(Key, file.Path);
         }
 
         private async Task SavePrivateKey()
