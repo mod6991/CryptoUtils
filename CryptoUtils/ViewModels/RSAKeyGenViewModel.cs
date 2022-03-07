@@ -80,6 +80,7 @@ namespace CryptoUtils.ViewModels
             {
                 MainWindow.AppDispatcher.TryEnqueue(() =>
                 {
+                    Key = null;
                     PublicKey = string.Empty;
                     PrivateKey = string.Empty;
                 });
@@ -119,6 +120,65 @@ namespace CryptoUtils.ViewModels
             WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
 
             StorageFile file = await picker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                MainWindow.AppDispatcher.TryEnqueue(() =>
+                {
+                    Key = null;
+                    PublicKey = string.Empty;
+                    PrivateKey = string.Empty;
+                });
+
+                string publicKey = string.Empty;
+                string privateKey = string.Empty;
+
+                try
+                {
+                    Key = RSA.LoadFromPEM(file.Path);
+                }
+                catch (Org.BouncyCastle.Security.PasswordException)
+                {
+                    PasswordContentDialog dialog = new PasswordContentDialog { XamlRoot = XamlRoot };
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        try
+                        {
+                            Key = RSA.LoadFromPEM(file.Path, dialog.Password);
+                        }
+                        catch
+                        {
+                            await new MessageBoxContentDialog(MessageType.Error, "Cannot load private key !") { XamlRoot = XamlRoot }.ShowAsync();
+                        }
+                    }
+                }
+
+                if (Key != null)
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        RSA.SavePublicKeyToPEM(Key, ms);
+                        publicKey = Encoding.UTF8.GetString(ms.ToArray());
+                    }
+
+                    if (!Key.PublicOnly)
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            RSA.SavePrivateKeyToPEM(Key, ms);
+                            privateKey = Encoding.UTF8.GetString(ms.ToArray());
+                        }
+                    }
+
+                    MainWindow.AppDispatcher.TryEnqueue(() =>
+                    {
+                        PublicKey = publicKey;
+                        PrivateKey = privateKey;
+                    });
+                }
+            }
         }
 
         private async Task SavePublicKey()
@@ -132,12 +192,7 @@ namespace CryptoUtils.ViewModels
             {
                 RSA.SavePublicKeyToPEM(Key, file.Path);
 
-                MessageBoxContentDialog dialog = new MessageBoxContentDialog
-                {
-                    XamlRoot = XamlRoot,
-                    Message = "Public key saved !"
-                };
-                await dialog.ShowAsync();
+                await new MessageBoxContentDialog(MessageType.Success, "Public key saved !") { XamlRoot = XamlRoot }.ShowAsync();
             }
         }
 
@@ -163,6 +218,8 @@ namespace CryptoUtils.ViewModels
                         RSA.SavePrivateKeyToPEM(Key, file.Path, password);
                     else
                         RSA.SavePrivateKeyToPEM(Key, file.Path);
+
+                    await new MessageBoxContentDialog(MessageType.Success, "Private key saved !") { XamlRoot = XamlRoot }.ShowAsync();
                 }
             }
         }
