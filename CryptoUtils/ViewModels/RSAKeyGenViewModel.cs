@@ -80,7 +80,6 @@ namespace CryptoUtils.ViewModels
             {
                 MainWindow.AppDispatcher.TryEnqueue(() =>
                 {
-                    Key = null;
                     PublicKey = string.Empty;
                     PrivateKey = string.Empty;
                 });
@@ -125,7 +124,6 @@ namespace CryptoUtils.ViewModels
             {
                 MainWindow.AppDispatcher.TryEnqueue(() =>
                 {
-                    Key = null;
                     PublicKey = string.Empty;
                     PrivateKey = string.Empty;
                 });
