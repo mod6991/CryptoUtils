@@ -9,6 +9,84 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock Text="EncDecWithKey" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button Margin="10 10 0 10"
+                    Command="{Binding}"
+                    IsEnabled="{Binding}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Width="24" Height="24" Data="M12,17C10.89,17 10,16.1 10,15C10,13.89 10.89,13 12,13A2,2 0 0,1 14,15A2,2 0 0,1 12,17M18,20V10H6V20H18M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V10C4,8.89 4.89,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
+                        <TextBlock Text="Encrypt" VerticalAlignment="Center" Margin="5 0 0 0" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="10 10 0 10"
+                    Command="{Binding}"
+                    IsEnabled="{Binding}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Width="24" Height="24" Data="M18,20V10H6V20H18M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V10A2,2 0 0,1 6,8H15V6A3,3 0 0,0 12,3A3,3 0 0,0 9,6H7A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,17A2,2 0 0,1 10,15A2,2 0 0,1 12,13A2,2 0 0,1 14,15A2,2 0 0,1 12,17Z" />
+                        <TextBlock Text="Decrypt" VerticalAlignment="Center" Margin="5 0 0 0" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <TextBlock Text="Type"
+                           FontSize="24"
+                           Margin="10" />
+                <ComboBox Margin="10" />
+                
+                <TextBlock Text="Input files"
+                           FontSize="24"
+                           Margin="10" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="10 10 0 10"
+                            Command="{Binding}">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Width="24" Height="24" Data="M12,14V11H10V14H7V16H10V19H12V16H15V14M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18" />
+                            <TextBlock Text="Add" VerticalAlignment="Center" Margin="5 0 0 0" />
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="10 10 0 10"
+                            Command="{Binding}">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Width="24" Height="24" Data="M14,2L20,8V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H14M18,20V9H13V4H6V20H18M11.5,10C14,10 16,12 16,14.5C16,17 14,19 11.5,19C9,19 7,17 7,14.5C7,12 9,10 11.5,10M11.5,11.5C10.94,11.5 10.42,11.65 10,11.92L14.08,16C14.35,15.58 14.5,15.06 14.5,14.5A3,3 0 0,0 11.5,11.5M8.5,14.5A3,3 0 0,0 11.5,17.5C12.06,17.5 12.58,17.35 13,17.08L8.92,13C8.65,13.42 8.5,13.94 8.5,14.5Z" />
+                            <TextBlock Text="Remove" VerticalAlignment="Center" Margin="5 0 0 0" />
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="10 10 0 10"
+                            Command="{Binding}">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Width="24" Height="24" Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+                            <TextBlock Text="Clear" VerticalAlignment="Center" Margin="5 0 0 0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <ListBox Margin="10"
+                         Height="200" />
+                
+                <TextBlock Text="Output"
+                           FontSize="24"
+                           Margin="10" />
+                <Button Margin="10 10 0 10"
+                        Command="{Binding}">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Width="24" Height="24" Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" />
+                        <TextBlock Text="Choose" Margin="5 0 0 0" />
+                    </StackPanel>
+                </Button>
+                <TextBox Text="{Binding}"
+                         Margin="10" />
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
