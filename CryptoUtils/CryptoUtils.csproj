@@ -17,6 +17,7 @@
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\Controls\EncDecView.xaml" />
     <None Remove="Views\Dialogs\MessageBoxContentDialog.xaml" />
     <None Remove="Views\Dialogs\PasswordContentDialog.xaml" />
     <None Remove="Views\EncDecWithKeyPage.xaml" />
@@ -94,6 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\RSAKeyGenPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Controls\EncDecView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

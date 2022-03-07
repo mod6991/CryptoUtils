@@ -1,0 +1,78 @@
+﻿<UserControl
+    x:Class="CryptoUtils.Views.Controls.EncDecView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CryptoUtils.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Grid.Row="1">
+        <StackPanel>
+            <!-- Enc type -->
+            <TextBlock Text="Type"
+                       FontSize="24"
+                       Margin="10" />
+            <ComboBox Margin="10" />
+
+            <!-- Input files -->
+            <TextBlock Text="Input files"
+                       FontSize="24"
+                       Margin="10" />
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="10 10 0 10"
+                        Command="{x:Bind ViewModel.AddFilesCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Width="24" Height="24" Data="M12,14V11H10V14H7V16H10V19H12V16H15V14M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18" />
+                        <TextBlock Text="Add" VerticalAlignment="Center" Margin="5 0 0 0" />
+                    </StackPanel>
+                </Button>
+                <Button Margin="10 10 0 10"
+                        Command="{x:Bind ViewModel.RemoveFilesCommand}"
+                        CommandParameter="{Binding SelectedItem, ElementName=InputFilesListBox, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Width="24" Height="24" Data="M14,2L20,8V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H14M18,20V9H13V4H6V20H18M11.5,10C14,10 16,12 16,14.5C16,17 14,19 11.5,19C9,19 7,17 7,14.5C7,12 9,10 11.5,10M11.5,11.5C10.94,11.5 10.42,11.65 10,11.92L14.08,16C14.35,15.58 14.5,15.06 14.5,14.5A3,3 0 0,0 11.5,11.5M8.5,14.5A3,3 0 0,0 11.5,17.5C12.06,17.5 12.58,17.35 13,17.08L8.92,13C8.65,13.42 8.5,13.94 8.5,14.5Z" />
+                        <TextBlock Text="Remove" VerticalAlignment="Center" Margin="5 0 0 0" />
+                    </StackPanel>
+                </Button>
+                <Button Margin="10 10 0 10"
+                        Command="{x:Bind ViewModel.ClearFilesCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Width="24" Height="24" Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+                        <TextBlock Text="Clear" VerticalAlignment="Center" Margin="5 0 0 0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <ListBox x:Name="InputFilesListBox"
+                     Margin="10"
+                     Height="200"
+                     AllowDrop="True"
+                     ItemsSource="{x:Bind ViewModel.InputFiles}"
+                     SelectionMode="Multiple"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+
+            <!-- Output -->
+            <TextBlock Text="Output"
+                       FontSize="24"
+                       Margin="10" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Text="{x:Bind ViewModel.Output, Mode=OneWay}"
+                         Margin="10" />
+                <Button Grid.Column="1"
+                        Margin="0 0 10 0"
+                        Command="{x:Bind ViewModel.SetOutputCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Width="24" Height="24" Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" />
+                        <TextBlock Text="Choose" Margin="5 0 0 0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
