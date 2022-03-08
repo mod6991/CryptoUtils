@@ -17,11 +17,9 @@
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Views\Controls\EncDecView.xaml" />
     <None Remove="Views\Dialogs\MessageBoxContentDialog.xaml" />
     <None Remove="Views\Dialogs\PasswordContentDialog.xaml" />
-    <None Remove="Views\EncDecWithKeyPage.xaml" />
-    <None Remove="Views\EncDecWithPassPage.xaml" />
+    <None Remove="Views\EncDecFilesPage.xaml" />
     <None Remove="Views\HashPage.xaml" />
     <None Remove="Views\RSAKeyGenPage.xaml" />
     <None Remove="Views\SaveKeyContentDialog.xaml" />
@@ -79,12 +77,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\EncDecWithPassPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\EncDecWithKeyPage.xaml">
+    <Page Update="Views\EncDecFilesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -95,11 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\RSAKeyGenPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\Controls\EncDecView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -6,11 +6,17 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 
-namespace CryptoUtils.ViewModels.Controls
+namespace CryptoUtils.ViewModels
 {
-    public class EncDecViewModel : ObservableObject
+    public class EncDecFilesViewModel : ObservableObject
     {
         #region Commands
+
+        private ICommand _encryptCommand;
+        public ICommand EncryptCommand => _encryptCommand ??= new AsyncRelayCommand(Encrypt); //() => 
+
+        private ICommand _decryptCommand;
+        public ICommand DecryptCommand => _decryptCommand ??= new AsyncRelayCommand(Decrypt);
 
         private ICommand _addFilesCommand;
         public ICommand AddFilesCommand => _addFilesCommand ??= new AsyncRelayCommand(AddFiles);
@@ -61,6 +67,16 @@ namespace CryptoUtils.ViewModels.Controls
         #endregion
 
         #region Methods
+
+        private async Task Encrypt()
+        {
+
+        }
+
+        private async Task Decrypt()
+        {
+
+        }
 
         private async Task AddFiles()
         {

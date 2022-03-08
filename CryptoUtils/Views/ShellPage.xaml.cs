@@ -46,12 +46,8 @@ namespace CryptoUtils.Views
                         NavigateTo(typeof(RSAKeyGenPage));
                         break;
 
-                    case "key":
-                        NavigateTo(typeof(EncDecWithKeyPage));
-                        break;
-
-                    case "pass":
-                        NavigateTo(typeof(EncDecWithPassPage));
+                    case "encdec":
+                        NavigateTo(typeof(EncDecFilesPage));
                         break;
 
                     case "hash":

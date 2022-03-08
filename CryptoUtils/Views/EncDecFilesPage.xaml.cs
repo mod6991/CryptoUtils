@@ -1,31 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using CryptoUtils.ViewModels.Controls;
+using CryptoUtils.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-namespace CryptoUtils.Views.Controls
+namespace CryptoUtils.Views
 {
-    public sealed partial class EncDecView : UserControl
+    public sealed partial class EncDecFilesPage : Page
     {
-        public EncDecViewModel ViewModel { get; set; }
+        public EncDecFilesViewModel ViewModel { get; set; }
 
-        public EncDecView()
+        public EncDecFilesPage()
         {
             InitializeComponent();
 
-            Loaded += EncDecWithKeyPage_Loaded;
-            Unloaded += EncDecWithKeyPage_Unloaded;
+            Loaded += EncDecFilesPage_Loaded;
+            Unloaded += EncDecFilesPage_Unloaded;
+
+            ViewModel = new EncDecFilesViewModel();
         }
 
-        private void EncDecWithKeyPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void EncDecFilesPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
+            ViewModel.XamlRoot = XamlRoot;
+
             InputFilesListBox.DragOver += InputFilesListBox_DragOver;
             InputFilesListBox.Drop += InputFilesListBox_Drop;
         }
 
-        private void EncDecWithKeyPage_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void EncDecFilesPage_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             InputFilesListBox.DragOver -= InputFilesListBox_DragOver;
             InputFilesListBox.Drop -= InputFilesListBox_Drop;
