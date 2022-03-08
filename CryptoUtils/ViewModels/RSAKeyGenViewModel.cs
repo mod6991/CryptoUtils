@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Byte.Toolkit.Crypto.PubKey;
+using CryptoUtils.Models;
 using CryptoUtils.Views.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -37,13 +38,6 @@ namespace CryptoUtils.ViewModels
 
         public XamlRoot XamlRoot { get; set; }
 
-        private bool _isWorking;
-        public bool IsWorking
-        {
-            get => _isWorking;
-            set => SetProperty(ref _isWorking, value);
-        }
-
         public System.Security.Cryptography.RSACryptoServiceProvider Key { get; set; }
 
         private string _publicKey;
@@ -74,8 +68,22 @@ namespace CryptoUtils.ViewModels
 
         private async Task Generate(int size)
         {
-            IsWorking = true;
+            ProgressionDialog dialog = new ProgressionDialog { XamlRoot = XamlRoot };
+            dialog.ProgressionObject = new RSAKeyGenerationProgression
+            {
+                IsIndeterminate = true,
+                ProgressText = "Generating key pair...",
+                IsPercentageVisible = false,
+                KeySize = size
+            };
 
+            dialog.Action = GenerateKeyPair;
+
+            await dialog.ShowAsync();
+        }
+
+        private async Task GenerateKeyPair(IProgression progression)
+        {
             await Task.Run(() =>
             {
                 MainWindow.AppDispatcher.TryEnqueue(() =>
@@ -84,6 +92,7 @@ namespace CryptoUtils.ViewModels
                     PrivateKey = string.Empty;
                 });
 
+                int size = (progression as RSAKeyGenerationProgression).KeySize;
                 Key = RSA.GenerateKeyPair(size);
 
                 string publicKey = string.Empty;
@@ -105,7 +114,6 @@ namespace CryptoUtils.ViewModels
                 {
                     PublicKey = publicKey;
                     PrivateKey = privateKey;
-                    IsWorking = false;
                 });
             });
         }

@@ -11,5 +11,6 @@ namespace CryptoUtils.Models
         bool IsIndeterminate { get; set; }
         double ProgressValue { get; set; }
         string ProgressText { get; set; }
+        bool IsPercentageVisible { get; set; }
     }
 }
