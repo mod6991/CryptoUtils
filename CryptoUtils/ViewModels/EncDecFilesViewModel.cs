@@ -1,15 +1,35 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CryptoUtils.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace CryptoUtils.ViewModels
 {
     public class EncDecFilesViewModel : ObservableObject
     {
+        #region Constructor
+
+        public EncDecFilesViewModel()
+        {
+            EncryptionTypes.Add(new EncryptionTypeItem { Type = EncryptionType.AES });
+            EncryptionTypes.Add(new EncryptionTypeItem { Type = EncryptionType.ChaChaAES });
+            SelectedEncryptionType = EncryptionTypes.First(x => x.Type == EncryptionType.ChaChaAES);
+
+            KeySources.Add(new EncryptionKeySourceItem { KeySource = EncryptionKeySource.RSA });
+            KeySources.Add(new EncryptionKeySourceItem { KeySource = EncryptionKeySource.Password });
+            SelectedKeySource = KeySources.First(x => x.KeySource == EncryptionKeySource.RSA);
+        }
+
+        #endregion
+
         #region Commands
 
         private ICommand _encryptCommand;
@@ -50,6 +70,20 @@ namespace CryptoUtils.ViewModels
             set => SetProperty(ref _selectedEncryptionType, value);
         }
 
+        private ObservableCollection<EncryptionKeySourceItem> _keySources;
+        public ObservableCollection<EncryptionKeySourceItem> KeySources
+        {
+            get => _keySources ??= new ObservableCollection<EncryptionKeySourceItem>();
+            set => SetProperty(ref _keySources, value);
+        }
+
+        private EncryptionKeySourceItem _selectedKeySource;
+        public EncryptionKeySourceItem SelectedKeySource
+        {
+            get => _selectedKeySource;
+            set => SetProperty(ref _selectedKeySource, value);
+        }
+
         private ObservableCollection<string> _inputFiles;
         public ObservableCollection<string> InputFiles
         {
@@ -80,7 +114,22 @@ namespace CryptoUtils.ViewModels
 
         private async Task AddFiles()
         {
+            FileOpenPicker picker = new FileOpenPicker();
+            picker.ViewMode = PickerViewMode.List;
+            picker.FileTypeFilter.Add("*");
 
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
+
+            IReadOnlyList<IStorageFile> files = await picker.PickMultipleFilesAsync();
+
+            if (files != null)
+            {
+                foreach (IStorageFile file in files)
+                {
+                    if (file.IsOfType(StorageItemTypes.File) && !InputFiles.Contains(file.Path))
+                        InputFiles.Add(file.Path);
+                }
+            }
         }
 
         private void RemoveFiles(string file)
@@ -95,7 +144,16 @@ namespace CryptoUtils.ViewModels
 
         private async Task SetOutput()
         {
-            
+            FolderPicker picker = new FolderPicker();
+            picker.ViewMode = PickerViewMode.List;
+            picker.FileTypeFilter.Add("*");
+
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
+
+            StorageFolder folder = await picker.PickSingleFolderAsync();
+
+            if (folder != null)
+                Output = folder.Path;
         }
 
         #endregion

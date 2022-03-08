@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CryptoUtils.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
@@ -27,12 +28,16 @@ namespace CryptoUtils.Views
 
             InputFilesListBox.DragOver += InputFilesListBox_DragOver;
             InputFilesListBox.Drop += InputFilesListBox_Drop;
+            OutputTextBox.DragOver += OutputTextBox_DragOver;
+            OutputTextBox.Drop += OutputTextBox_Drop;
         }
 
         private void EncDecFilesPage_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             InputFilesListBox.DragOver -= InputFilesListBox_DragOver;
             InputFilesListBox.Drop -= InputFilesListBox_Drop;
+            OutputTextBox.DragOver -= OutputTextBox_DragOver;
+            OutputTextBox.Drop -= OutputTextBox_Drop;
         }
 
         private void InputFilesListBox_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
@@ -49,13 +54,26 @@ namespace CryptoUtils.Views
                 {
                     foreach (IStorageItem item in items)
                     {
-                        if (item.IsOfType(StorageItemTypes.File))
-                        {
-                            if (!ViewModel.InputFiles.Contains(item.Path))
-                                ViewModel.InputFiles.Add(item.Path);
-                        }
+                        if (item.IsOfType(StorageItemTypes.File) && !ViewModel.InputFiles.Contains(item.Path))
+                            ViewModel.InputFiles.Add(item.Path);
                     }
                 }
+            }
+        }
+
+        private void OutputTextBox_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+        }
+
+        private async void OutputTextBox_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+
+                if (items.Count == 1)
+                    ViewModel.Output = items.ElementAt(0).Path;
             }
         }
     }

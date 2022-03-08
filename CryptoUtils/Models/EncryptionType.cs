@@ -19,7 +19,7 @@ namespace CryptoUtils.Models
                 {
                     case EncryptionType.AES: return "AES";
                     case EncryptionType.ChaChaAES: return "ChaCha20 and AES";
-                    default: throw new InvalidOperationException("Unknown type");
+                    default: throw new InvalidOperationException("Unknown EncryptionType");
                 }
             }
         }
