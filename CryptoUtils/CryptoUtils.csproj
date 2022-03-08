@@ -17,8 +17,9 @@
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Views\Dialogs\MessageBoxContentDialog.xaml" />
-    <None Remove="Views\Dialogs\PasswordContentDialog.xaml" />
+    <None Remove="Views\Dialogs\MessageBoxDialog.xaml" />
+    <None Remove="Views\Dialogs\PasswordDialog.xaml" />
+    <None Remove="Views\Dialogs\ProgressionDialog.xaml" />
     <None Remove="Views\EncDecFilesPage.xaml" />
     <None Remove="Views\HashPage.xaml" />
     <None Remove="Views\RSAKeyGenPage.xaml" />
@@ -52,17 +53,22 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\Dialogs\PasswordContentDialog.xaml">
+    <Page Update="Views\Dialogs\ProgressionDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\Dialogs\MessageBoxContentDialog.xaml">
+    <Page Update="Views\Dialogs\PasswordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\Dialogs\SaveKeyContentDialog.xaml">
+    <Page Update="Views\Dialogs\MessageBoxDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\SaveKeyDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

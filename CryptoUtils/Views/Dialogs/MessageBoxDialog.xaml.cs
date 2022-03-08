@@ -9,9 +9,9 @@ namespace CryptoUtils.Views.Dialogs
         Error
     }
 
-    public sealed partial class MessageBoxContentDialog : ContentDialog
+    public sealed partial class MessageBoxDialog : ContentDialog
     {
-        public MessageBoxContentDialog(MessageType messageType, string message)
+        public MessageBoxDialog(MessageType messageType, string message)
         {
             InitializeComponent();
             

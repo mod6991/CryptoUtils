@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CryptoUtils.Models;
+using CryptoUtils.Views.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
@@ -104,7 +105,20 @@ namespace CryptoUtils.ViewModels
 
         private async Task Encrypt()
         {
+            ProgressionDialog dialog = new ProgressionDialog { XamlRoot = XamlRoot };
+            dialog.IsIndeterminate = false;
+            dialog.ProgressText = "Computing...";
+            dialog.ProgressValue = 12.55;
+            dialog.Action = async (dialog) =>
+            {
+                for (int i = 0; i < 101; i++)
+                {
+                    await Task.Delay(20);
+                    dialog.ProgressValue = i;
+                }
+            };
 
+            await dialog.ShowAsync();
         }
 
         private async Task Decrypt()

@@ -137,7 +137,7 @@ namespace CryptoUtils.ViewModels
                 }
                 catch (Org.BouncyCastle.Security.PasswordException)
                 {
-                    PasswordContentDialog dialog = new PasswordContentDialog { XamlRoot = XamlRoot };
+                    PasswordDialog dialog = new PasswordDialog { XamlRoot = XamlRoot };
                     ContentDialogResult result = await dialog.ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
@@ -148,7 +148,7 @@ namespace CryptoUtils.ViewModels
                         }
                         catch
                         {
-                            await new MessageBoxContentDialog(MessageType.Error, "Cannot load private key !") { XamlRoot = XamlRoot }.ShowAsync();
+                            await new MessageBoxDialog(MessageType.Error, "Cannot load private key !") { XamlRoot = XamlRoot }.ShowAsync();
                         }
                     }
                 }
@@ -190,13 +190,13 @@ namespace CryptoUtils.ViewModels
             {
                 RSA.SavePublicKeyToPEM(Key, file.Path);
 
-                await new MessageBoxContentDialog(MessageType.Success, "Public key saved !") { XamlRoot = XamlRoot }.ShowAsync();
+                await new MessageBoxDialog(MessageType.Success, "Public key saved !") { XamlRoot = XamlRoot }.ShowAsync();
             }
         }
 
         private async Task SavePrivateKey()
         {
-            SaveKeyContentDialog dialog = new SaveKeyContentDialog { XamlRoot = XamlRoot };
+            SaveKeyDialog dialog = new SaveKeyDialog { XamlRoot = XamlRoot };
             ContentDialogResult result = await dialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -217,7 +217,7 @@ namespace CryptoUtils.ViewModels
                     else
                         RSA.SavePrivateKeyToPEM(Key, file.Path);
 
-                    await new MessageBoxContentDialog(MessageType.Success, "Private key saved !") { XamlRoot = XamlRoot }.ShowAsync();
+                    await new MessageBoxDialog(MessageType.Success, "Private key saved !") { XamlRoot = XamlRoot }.ShowAsync();
                 }
             }
         }

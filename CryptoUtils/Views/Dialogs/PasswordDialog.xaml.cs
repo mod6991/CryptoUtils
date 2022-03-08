@@ -2,14 +2,13 @@
 
 namespace CryptoUtils.Views.Dialogs
 {
-    public sealed partial class SaveKeyContentDialog : ContentDialog
+    public sealed partial class PasswordDialog : ContentDialog
     {
-        public SaveKeyContentDialog()
+        public PasswordDialog()
         {
             InitializeComponent();
         }
 
-        public bool EncryptWithPassword { get; set; } = true;
         public string Password { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿<ContentDialog
-    x:Class="CryptoUtils.Views.Dialogs.SaveKeyContentDialog"
+    x:Class="CryptoUtils.Views.Dialogs.SaveKeyDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Save private key"
