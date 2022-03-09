@@ -19,10 +19,8 @@
                       Width="128"
                       Height="128"
                       IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}"
-                      Value="{x:Bind ProgressValue, Mode=OneWay}"
-                      FocusVisualPrimaryThickness="2"
-                      FocusVisualSecondaryThickness="2"/>
-        
+                      Value="{x:Bind ProgressValue, Mode=OneWay}" />
+
         <TextBlock Grid.Row="0" 
                    Text="{x:Bind ProgressValue, Converter={StaticResource PercentConverter}, Mode=OneWay}"
                    Visibility="{x:Bind IsPercentageVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"

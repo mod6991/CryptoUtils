@@ -125,7 +125,6 @@ namespace CryptoUtils.ViewModels
             }
 
             progression.ProgressText = "done !";
-            progression.ProgressValue = 100.0;
         }
 
         private async Task Decrypt()
