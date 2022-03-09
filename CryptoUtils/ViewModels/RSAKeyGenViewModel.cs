@@ -68,13 +68,14 @@ namespace CryptoUtils.ViewModels
 
         private async Task Generate(int size)
         {
-            ProgressionDialog dialog = new ProgressionDialog { XamlRoot = XamlRoot };
-            dialog.ProgressionObject = new RSAKeyGenerationProgression
-            {
+            ProgressionDialog dialog = new ProgressionDialog
+            { 
+                XamlRoot = XamlRoot,
                 IsIndeterminate = true,
                 ProgressText = "Generating key pair...",
                 IsPercentageVisible = false,
-                KeySize = size
+                AutoClose = true,
+                ProgressionState = size
             };
 
             dialog.Action = GenerateKeyPair;
@@ -92,7 +93,7 @@ namespace CryptoUtils.ViewModels
                     PrivateKey = string.Empty;
                 });
 
-                int size = (progression as RSAKeyGenerationProgression).KeySize;
+                int size = (int)progression.ProgressionState;
                 Key = RSA.GenerateKeyPair(size);
 
                 string publicKey = string.Empty;

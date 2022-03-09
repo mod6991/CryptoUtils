@@ -105,12 +105,10 @@ namespace CryptoUtils.ViewModels
 
         private async Task Encrypt()
         {
-            ProgressionDialog dialog = new ProgressionDialog { XamlRoot = XamlRoot };
-            dialog.ProgressionObject = new Progression
+            ProgressionDialog dialog = new ProgressionDialog
             {
-                IsIndeterminate = false,
+                XamlRoot = XamlRoot,
                 ProgressText = "Computing...",
-                IsPercentageVisible = true
             };
             dialog.Action = TestMethod;
 
@@ -125,6 +123,9 @@ namespace CryptoUtils.ViewModels
                 await Task.Delay(20);
                 progression.ProgressValue = i;
             }
+
+            progression.ProgressText = "done !";
+            progression.ProgressValue = 100.0;
         }
 
         private async Task Decrypt()

@@ -18,17 +18,19 @@
         <ProgressRing Grid.Row="0"
                       Width="128"
                       Height="128"
-                      IsIndeterminate="{x:Bind ProgressionObject.IsIndeterminate, Mode=OneWay}"
-                      Value="{x:Bind ProgressionObject.ProgressValue, Mode=OneWay}" />
+                      IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}"
+                      Value="{x:Bind ProgressValue, Mode=OneWay}"
+                      FocusVisualPrimaryThickness="2"
+                      FocusVisualSecondaryThickness="2"/>
         
         <TextBlock Grid.Row="0" 
-                   Text="{x:Bind ProgressionObject.ProgressValue, Converter={StaticResource PercentConverter}, Mode=OneWay}"
-                   Visibility="{x:Bind ProgressionObject.IsPercentageVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                   Text="{x:Bind ProgressValue, Converter={StaticResource PercentConverter}, Mode=OneWay}"
+                   Visibility="{x:Bind IsPercentageVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
 
         <TextBlock Grid.Row="1"
-                   Text="{x:Bind ProgressionObject.ProgressText, Mode=OneWay}"
+                   Text="{x:Bind ProgressText, Mode=OneWay}"
                    TextWrapping="Wrap"
                    Margin="10 30 10 10" />
     </Grid>
