@@ -51,6 +51,9 @@ namespace CryptoUtils.ViewModels
         private ICommand _setOutputCommand;
         public ICommand SetOutputCommand => _setOutputCommand ??= new AsyncRelayCommand(SetOutput);
 
+        private ICommand _loadKeyCommand;
+        public ICommand LoadKeyCommand => _loadKeyCommand ??= new AsyncRelayCommand(LoadKey);
+
         #endregion
 
         #region Properties
@@ -82,7 +85,21 @@ namespace CryptoUtils.ViewModels
         public EncryptionKeySourceItem SelectedKeySource
         {
             get => _selectedKeySource;
-            set => SetProperty(ref _selectedKeySource, value);
+            set
+            {
+                SetProperty(ref _selectedKeySource, value);
+
+                if (value.KeySource == EncryptionKeySource.RSA)
+                {
+                    UseKey = true;
+                    UsePassword = false;
+                }
+                else
+                {
+                    UseKey = false;
+                    UsePassword = true;
+                }
+            }
         }
 
         private ObservableCollection<string> _inputFiles;
@@ -99,37 +116,65 @@ namespace CryptoUtils.ViewModels
             set => SetProperty(ref _output, value);
         }
 
+        private bool _useKey;
+        public bool UseKey
+        {
+            get => _useKey;
+            set => SetProperty(ref _useKey, value);
+        }
+
+        private bool _usePassword;
+        public bool UsePassword
+        {
+            get => _usePassword;
+            set => SetProperty (ref _usePassword, value);
+        }
+
+        private string _keyPath;
+        public string KeyPath
+        {
+            get => _keyPath;
+            set => SetProperty (ref _keyPath, value);
+        }
+
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
+
         #endregion
 
         #region Methods
 
         private async Task Encrypt()
         {
-            ProgressionDialog dialog = new ProgressionDialog
-            {
-                XamlRoot = XamlRoot,
-                ProgressText = "Computing...",
-            };
-            dialog.Action = TestMethod;
+            //ProgressionDialog dialog = new ProgressionDialog
+            //{
+            //    XamlRoot = XamlRoot,
+            //    ProgressText = "Computing...",
+            //};
+            //dialog.Action = TestMethod;
 
-            await dialog.ShowAsync();
+            //await dialog.ShowAsync();
         }
 
-        private async Task TestMethod(IProgression progression)
-        {
-            progression.ProgressText = "test";
-            for (int i = 0; i < 101; i++)
-            {
-                await Task.Delay(20);
-                progression.ProgressValue = i;
-            }
+        //private async Task TestMethod(IProgression progression)
+        //{
+        //    progression.ProgressText = "test";
+        //    for (int i = 0; i < 101; i++)
+        //    {
+        //        await Task.Delay(20);
+        //        progression.ProgressValue = i;
+        //    }
 
-            progression.ProgressText = "done !";
-        }
+        //    progression.ProgressText = "done !";
+        //}
 
         private async Task Decrypt()
         {
-
+            
         }
 
         private async Task AddFiles()
@@ -174,6 +219,20 @@ namespace CryptoUtils.ViewModels
 
             if (folder != null)
                 Output = folder.Path;
+        }
+
+        private async Task LoadKey()
+        {
+            FileOpenPicker picker = new FileOpenPicker();
+            picker.ViewMode = PickerViewMode.List;
+            picker.FileTypeFilter.Add(".pem");
+
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.WindowHandle);
+
+            StorageFile file = await picker.PickSingleFileAsync();
+
+            if (file != null)
+                KeyPath = file.Path;
         }
 
         #endregion

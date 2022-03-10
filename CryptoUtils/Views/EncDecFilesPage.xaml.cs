@@ -30,6 +30,8 @@ namespace CryptoUtils.Views
             InputFilesListBox.Drop += InputFilesListBox_Drop;
             OutputTextBox.DragOver += OutputTextBox_DragOver;
             OutputTextBox.Drop += OutputTextBox_Drop;
+            KeyTextBox.DragOver += KeyTextBox_DragOver;
+            KeyTextBox.Drop += KeyTextBox_Drop;
         }
 
         private void EncDecFilesPage_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -38,6 +40,8 @@ namespace CryptoUtils.Views
             InputFilesListBox.Drop -= InputFilesListBox_Drop;
             OutputTextBox.DragOver -= OutputTextBox_DragOver;
             OutputTextBox.Drop -= OutputTextBox_Drop;
+            KeyTextBox.DragOver -= KeyTextBox_DragOver;
+            KeyTextBox.Drop -= KeyTextBox_Drop;
         }
 
         private void InputFilesListBox_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
@@ -74,6 +78,22 @@ namespace CryptoUtils.Views
 
                 if (items.Count == 1)
                     ViewModel.Output = items.ElementAt(0).Path;
+            }
+        }
+
+        private void KeyTextBox_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+        }
+
+        private async void KeyTextBox_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+
+                if (items.Count == 1)
+                    ViewModel.KeyPath = items.ElementAt(0).Path;
             }
         }
     }

@@ -53,6 +53,41 @@
                           SelectedItem="{x:Bind ViewModel.SelectedKeySource, Mode=TwoWay}"
                           DisplayMemberPath="DisplayName" />
 
+                <!-- Key -->
+                <StackPanel Visibility="{x:Bind ViewModel.UseKey, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <TextBlock Text="Key"
+                               FontSize="24"
+                               Margin="10" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 x:Name="KeyTextBox"
+                                 Text="{x:Bind ViewModel.KeyPath, Mode=OneWay}"
+                                 Margin="10"
+                                 AllowDrop="True" />
+                        <Button Grid.Column="1"
+                                Margin="0 0 10 0"
+                                Command="{x:Bind ViewModel.LoadKeyCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <PathIcon Width="24" Height="24" Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" />
+                                <TextBlock Text="Choose" Margin="5 0 0 0" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+                
+                <!-- Password -->
+                <StackPanel Visibility="{x:Bind ViewModel.UsePassword, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <TextBlock Text="Password"
+                               FontSize="24"
+                               Margin="10" />
+                    <PasswordBox Password="{x:Bind ViewModel.Password}"
+                                 Margin="10" />
+                </StackPanel>
+
                 <!-- Input files -->
                 <TextBlock Text="Input files"
                        FontSize="24"
@@ -86,7 +121,6 @@
                      Height="200"
                      AllowDrop="True"
                      ItemsSource="{x:Bind ViewModel.InputFiles}"
-                     SelectionMode="Multiple"
                      ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 
                 <!-- Output -->
